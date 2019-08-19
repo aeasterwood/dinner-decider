@@ -36,11 +36,14 @@ const Header = (props) => {
 };
 
 const Choices = (props) => {
+	return <div>{props.choices.map((choice) => <Choice key={choice} choiceText={choice} />)}</div>;
+};
+
+const Choice = (props) => {
 	return (
 		<div>
-			{props.choices.map((choice) => {
-				return <p>{choice}</p>;
-			})}
+			{props.choiceText}
+			<button>Remove</button>
 		</div>
 	);
 };
@@ -52,7 +55,9 @@ class AddChoice extends React.Component {
 	}
 	handleAddChoice (e) {
 		e.preventDefault();
+
 		const choice = e.target.elements.choice.value.trim();
+		const item = this.props.handleAddChoice(choice);
 	}
 	render () {
 		return (
