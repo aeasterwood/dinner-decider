@@ -3,16 +3,24 @@ console.log('App is running');
 class App extends React.Component {
 	constructor (props) {
 		super(props);
+		this.handleAddChoice = this.handleAddChoice.bind(this);
 		this.state = {
 			choices: []
 		};
+	}
+	handleAddChoice (choice) {
+		this.setState((prevState) => {
+			return {
+				options: prevState.choices.concat(choice)
+			};
+		});
 	}
 	render () {
 		const title = 'Dinner Decision';
 		return (
 			<div>
 				<Header title={title} />
-				<AddChoice />
+				<AddChoice handleAddChoice={this.handleAddChoice} />
 			</div>
 		);
 	}
@@ -29,11 +37,17 @@ const Header = (props) => {
 class AddChoice extends React.Component {
 	constructor (props) {
 		super(props);
+		this.handleAddChoice = this.handleAddChoice.bind(this);
+	}
+	handleAddChoice (e) {
+		e.preventDefault();
+		const choice = e.target.elements.choice.value.trim();
 	}
 	render () {
 		return (
 			<div>
-				<form>
+				<form onSubmit={this.handleAddChoice}>
+					<input type="text" name="choice" />
 					<button>Add Choice</button>
 				</form>
 			</div>
