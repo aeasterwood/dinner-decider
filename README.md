@@ -1,1 +1,2 @@
 # dinner-decider
+mvp project
