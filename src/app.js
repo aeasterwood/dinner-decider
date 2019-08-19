@@ -12,6 +12,7 @@ class App extends React.Component {
 		return (
 			<div>
 				<Header title={title} />
+				<AddChoice />
 			</div>
 		);
 	}
@@ -24,5 +25,20 @@ const Header = (props) => {
 		</div>
 	);
 };
+
+class AddChoice extends React.Component {
+	constructor (props) {
+		super(props);
+	}
+	render () {
+		return (
+			<div>
+				<form>
+					<button>Add Choice</button>
+				</form>
+			</div>
+		);
+	}
+}
 
 ReactDOM.render(<App />, document.getElementById('app'));
