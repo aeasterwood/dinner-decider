@@ -16,25 +16,39 @@ var App = function (_React$Component) {
 	function App(props) {
 		_classCallCheck(this, App);
 
-		return _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
+		var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
+
+		_this.state = {
+			choices: []
+		};
+		return _this;
 	}
 
 	_createClass(App, [{
 		key: 'render',
 		value: function render() {
+			var title = 'Dinner Decision';
 			return React.createElement(
 				'div',
 				null,
-				React.createElement(
-					'h1',
-					null,
-					'this is a test'
-				)
+				React.createElement(Header, { title: title })
 			);
 		}
 	}]);
 
 	return App;
 }(React.Component);
+
+var Header = function Header(props) {
+	return React.createElement(
+		'div',
+		null,
+		React.createElement(
+			'h1',
+			null,
+			props.title
+		)
+	);
+};
 
 ReactDOM.render(React.createElement(App, null), document.getElementById('app'));
