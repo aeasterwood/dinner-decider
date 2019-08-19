@@ -2,6 +2,7 @@ class App extends React.Component {
 	constructor (props) {
 		super(props);
 		this.handleAddChoice = this.handleAddChoice.bind(this);
+		this.handleDeleteChoice = this.handleDeleteChoice.bind(this);
 		this.handleSelector = this.handleSelector.bind(this);
 		this.state = {
 			choices: [ 'Test one', 'Test two' ]
@@ -11,6 +12,15 @@ class App extends React.Component {
 		this.setState((prevState) => {
 			return {
 				choices: prevState.choices.concat(choice)
+			};
+		});
+	}
+	handleDeleteChoice (choiceToDelete) {
+		this.setState((prevState) => {
+			return {
+				choices: prevState.choices.filter((choice) => {
+					return choiceToDelete !== choice;
+				})
 			};
 		});
 	}
@@ -24,8 +34,8 @@ class App extends React.Component {
 		return (
 			<div>
 				<Header title={title} />
-				<Selector handleSelector={this.handleSelector} />
-				<Choices choices={this.state.choices} />
+				<Selector hasChoices={this.state.choices.length > 0} handleSelector={this.handleSelector} />
+				<Choices choices={this.state.choices} handleDeleteChoice={this.handleDeleteChoice} />
 				<AddChoice handleAddChoice={this.handleAddChoice} />
 			</div>
 		);
@@ -43,20 +53,34 @@ const Header = (props) => {
 const Selector = (props) => {
 	return (
 		<div>
-			<button onClick={props.handleSelector}>Where should we eat?</button>
+			<button onClick={props.handleSelector} disabled={!props.hasChoices}>
+				Where should we eat?
+			</button>
 		</div>
 	);
 };
 
 const Choices = (props) => {
-	return <div>{props.choices.map((choice) => <Choice key={choice} choiceText={choice} />)}</div>;
+	return (
+		<div>
+			{props.choices.map((choice) => (
+				<Choice key={choice} choiceText={choice} handleDeleteChoice={props.handleDeleteChoice} />
+			))}
+		</div>
+	);
 };
 
 const Choice = (props) => {
 	return (
 		<div>
 			{props.choiceText}
-			<button>Delete</button>
+			<button
+				onClick={(e) => {
+					props.handleDeleteChoice(props.choiceText);
+				}}
+			>
+				Delete
+			</button>
 		</div>
 	);
 };
