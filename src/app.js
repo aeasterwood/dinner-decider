@@ -1,9 +1,8 @@
-console.log('App is running');
-
 class App extends React.Component {
 	constructor (props) {
 		super(props);
 		this.handleAddChoice = this.handleAddChoice.bind(this);
+		this.handleSelector = this.handleSelector.bind(this);
 		this.state = {
 			choices: [ 'Test one', 'Test two' ]
 		};
@@ -15,11 +14,17 @@ class App extends React.Component {
 			};
 		});
 	}
+	handleSelector () {
+		const random = Math.floor(Math.random() * this.state.choices.length);
+		const selection = this.state.choices[random];
+		alert(selection);
+	}
 	render () {
-		const title = 'Dinner Decision';
+		const title = 'Dinner Decider';
 		return (
 			<div>
 				<Header title={title} />
+				<Selector handleSelector={this.handleSelector} />
 				<Choices choices={this.state.choices} />
 				<AddChoice handleAddChoice={this.handleAddChoice} />
 			</div>
@@ -35,6 +40,14 @@ const Header = (props) => {
 	);
 };
 
+const Selector = (props) => {
+	return (
+		<div>
+			<button onClick={props.handleSelector}>Where should we eat?</button>
+		</div>
+	);
+};
+
 const Choices = (props) => {
 	return <div>{props.choices.map((choice) => <Choice key={choice} choiceText={choice} />)}</div>;
 };
@@ -43,7 +56,7 @@ const Choice = (props) => {
 	return (
 		<div>
 			{props.choiceText}
-			<button>Remove</button>
+			<button>Delete</button>
 		</div>
 	);
 };
