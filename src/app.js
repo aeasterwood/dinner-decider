@@ -5,13 +5,13 @@ class App extends React.Component {
 		super(props);
 		this.handleAddChoice = this.handleAddChoice.bind(this);
 		this.state = {
-			choices: []
+			choices: [ 'Test one', 'Test two' ]
 		};
 	}
 	handleAddChoice (choice) {
 		this.setState((prevState) => {
 			return {
-				options: prevState.choices.concat(choice)
+				choices: prevState.choices.concat(choice)
 			};
 		});
 	}
@@ -20,6 +20,7 @@ class App extends React.Component {
 		return (
 			<div>
 				<Header title={title} />
+				<Choices choices={this.state.choices} />
 				<AddChoice handleAddChoice={this.handleAddChoice} />
 			</div>
 		);
@@ -30,6 +31,16 @@ const Header = (props) => {
 	return (
 		<div>
 			<h1>{props.title}</h1>
+		</div>
+	);
+};
+
+const Choices = (props) => {
+	return (
+		<div>
+			{props.choices.map((choice) => {
+				return <p>{choice}</p>;
+			})}
 		</div>
 	);
 };
