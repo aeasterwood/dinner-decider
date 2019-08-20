@@ -3,12 +3,21 @@ class App extends React.Component {
 		super(props);
 		this.handleAddChoice = this.handleAddChoice.bind(this);
 		this.handleDeleteChoice = this.handleDeleteChoice.bind(this);
+		this.handleDeleteAll = this.handleDeleteAll.bind(this);
 		this.handleSelector = this.handleSelector.bind(this);
 		this.state = {
 			choices: [ 'Test one', 'Test two' ]
 		};
 	}
+	componentDidMount () {
+		console.log('component did mount');
+	}
 	handleAddChoice (choice) {
+		if (!choice) {
+			return 'Enter value';
+		} else if (this.state.choices.indexOf(choice) > -1) {
+			return 'This choice already exists!';
+		}
 		this.setState((prevState) => {
 			return {
 				choices: prevState.choices.concat(choice)
@@ -24,6 +33,13 @@ class App extends React.Component {
 			};
 		});
 	}
+	handleDeleteAll () {
+		this.setState(() => {
+			return {
+				choices: []
+			};
+		});
+	}
 	handleSelector () {
 		const random = Math.floor(Math.random() * this.state.choices.length);
 		const selection = this.state.choices[random];
@@ -35,7 +51,11 @@ class App extends React.Component {
 			<div>
 				<Header title={title} />
 				<Selector hasChoices={this.state.choices.length > 0} handleSelector={this.handleSelector} />
-				<Choices choices={this.state.choices} handleDeleteChoice={this.handleDeleteChoice} />
+				<Choices
+					choices={this.state.choices}
+					handleDeleteChoice={this.handleDeleteChoice}
+					handleDeleteAll={this.handleDeleteAll}
+				/>
 				<AddChoice handleAddChoice={this.handleAddChoice} />
 			</div>
 		);
@@ -63,6 +83,7 @@ const Selector = (props) => {
 const Choices = (props) => {
 	return (
 		<div>
+			<button onClick={props.handleDeleteAll}>Delete All</button>
 			{props.choices.map((choice) => (
 				<Choice key={choice} choiceText={choice} handleDeleteChoice={props.handleDeleteChoice} />
 			))}
@@ -89,16 +110,25 @@ class AddChoice extends React.Component {
 	constructor (props) {
 		super(props);
 		this.handleAddChoice = this.handleAddChoice.bind(this);
+		this.state = {
+			item: undefined
+		};
 	}
 	handleAddChoice (e) {
 		e.preventDefault();
 
 		const choice = e.target.elements.choice.value.trim();
 		const item = this.props.handleAddChoice(choice);
+		this.setState(() => {
+			return {
+				item: item
+			};
+		});
 	}
 	render () {
 		return (
 			<div>
+				{this.state.item && <p>{this.state.item}</p>}
 				<form onSubmit={this.handleAddChoice}>
 					<input type="text" name="choice" />
 					<button>Add Choice</button>
