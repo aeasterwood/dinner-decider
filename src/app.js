@@ -6,11 +6,30 @@ class App extends React.Component {
 		this.handleDeleteAll = this.handleDeleteAll.bind(this);
 		this.handleSelector = this.handleSelector.bind(this);
 		this.state = {
-			choices: [ 'Test one', 'Test two' ]
+			choices: []
 		};
 	}
 	componentDidMount () {
-		console.log('component did mount');
+		try {
+			const json = localStorage.getItem('choices');
+			const choices = JSON.parse(json);
+			if (choices) {
+				this.setState(() => {
+					return {
+						choices
+					};
+				});
+			}
+		} catch (e) {
+			//do nothing
+		}
+	}
+	componentDidUpdate (prevProps, prevState) {
+		if (prevState.choices.length !== this.state.choices.length) {
+			const json = JSON.stringify(this.state.choices);
+			localStorage.setItem('choices', json);
+			console.log('saving data');
+		}
 	}
 	handleAddChoice (choice) {
 		if (!choice) {
@@ -84,6 +103,7 @@ const Choices = (props) => {
 	return (
 		<div>
 			<button onClick={props.handleDeleteAll}>Delete All</button>
+			{props.choices.length === 0 && <p>Add some choices to get started</p>}
 			{props.choices.map((choice) => (
 				<Choice key={choice} choiceText={choice} handleDeleteChoice={props.handleDeleteChoice} />
 			))}
@@ -111,19 +131,22 @@ class AddChoice extends React.Component {
 		super(props);
 		this.handleAddChoice = this.handleAddChoice.bind(this);
 		this.state = {
-			item: undefined
+			error: undefined
 		};
 	}
 	handleAddChoice (e) {
 		e.preventDefault();
 
 		const choice = e.target.elements.choice.value.trim();
-		const item = this.props.handleAddChoice(choice);
+		const error = this.props.handleAddChoice(choice);
 		this.setState(() => {
 			return {
-				item: item
+				error: error
 			};
 		});
+		if (!error) {
+			e.target.elements.choice.value = '';
+		}
 	}
 	render () {
 		return (
