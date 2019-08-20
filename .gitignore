@@ -1,8 +1,8 @@
 node_modules/
 
-public/scripts/
 build/
 dist/
+public/bundle.js
 
 logs
 *.log
