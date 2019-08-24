@@ -28,7 +28,7 @@ class AddChoice extends React.Component {
 				{this.state.item && <p>{this.state.item}</p>}
 				<form onSubmit={this.handleAddChoice}>
 					<input type="text" name="choice" />
-					<button>Add Choice</button>
+					<button className="button">Add Choice</button>
 				</form>
 			</div>
 		);

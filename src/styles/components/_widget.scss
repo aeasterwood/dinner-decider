@@ -1,0 +1,22 @@
+.widget {
+	background: $light-blue;
+}
+
+.widget__message {
+	color: $blue;
+	margin: 0;
+	padding: $lg-size;
+	text-align: center;
+}
+
+.widget-header {
+	background: $navy;
+	color: $blue;
+	display: flex;
+	justify-content: space-between;
+	padding: $med-size;
+}
+
+.widget-header__title {
+	margin: 0;
+}

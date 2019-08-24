@@ -1,0 +1,31 @@
+.big-button {
+	background: $navy;
+	border: none;
+	border-bottom: .6rem solid darken($navy, 10%);
+	color: $blue;
+	font-weight: bold;
+	font-size: $lg-size;
+	margin-bottom: $xl-size;
+	padding: 1.2rem;
+	width: 100%;
+}
+
+.big-button:disabled {
+	opacity: .5;
+}
+
+.button {
+	background: $navy;
+	border: none;
+	border-bottom: .3rem solid darken($navy, 10%);
+	color: $blue;
+	font-weight: 500;
+	padding: $sm-size;
+}
+
+.button--delete {
+	background: none;
+	border: none;
+	color: $blue;
+	padding: 0;
+}

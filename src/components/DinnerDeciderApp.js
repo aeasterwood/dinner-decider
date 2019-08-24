@@ -3,6 +3,8 @@ import Header from './Header';
 import Selector from './Selector';
 import AddChoice from './AddChoice';
 import Choices from './Choices';
+import OptionModal from './SelectorModal';
+import SelectorModal from './SelectorModal';
 
 class DinnerDeciderApp extends React.Component {
 	constructor (props) {
@@ -11,8 +13,10 @@ class DinnerDeciderApp extends React.Component {
 		this.handleDeleteChoice = this.handleDeleteChoice.bind(this);
 		this.handleDeleteAll = this.handleDeleteAll.bind(this);
 		this.handleSelector = this.handleSelector.bind(this);
+		this.handleClearSelectedChoice = this.handleClearSelectedChoice.bind(this);
 		this.state = {
-			choices: []
+			choices: [],
+			selectedChoice: undefined
 		};
 	}
 	componentDidMount () {
@@ -68,20 +72,39 @@ class DinnerDeciderApp extends React.Component {
 	handleSelector () {
 		const random = Math.floor(Math.random() * this.state.choices.length);
 		const selection = this.state.choices[random];
-		alert(selection);
+		this.setState(() => {
+			return {
+				selectedChoice: selection
+			};
+		});
+	}
+	handleClearSelectedChoice () {
+		this.setState(() => {
+			return {
+				selectedChoice: undefined
+			};
+		});
 	}
 	render () {
 		const title = 'Dinner Decider';
 		return (
 			<div>
 				<Header title={title} />
-				<Selector hasChoices={this.state.choices.length > 0} handleSelector={this.handleSelector} />
-				<Choices
-					choices={this.state.choices}
-					handleDeleteChoice={this.handleDeleteChoice}
-					handleDeleteAll={this.handleDeleteAll}
+				<div className="container">
+					<Selector hasChoices={this.state.choices.length > 0} handleSelector={this.handleSelector} />
+					<div className="widget">
+						<Choices
+							choices={this.state.choices}
+							handleDeleteChoice={this.handleDeleteChoice}
+							handleDeleteAll={this.handleDeleteAll}
+						/>
+						<AddChoice handleAddChoice={this.handleAddChoice} />
+					</div>
+				</div>
+				<SelectorModal
+					selectedChoice={this.state.selectedChoice}
+					handleClearSelectedChoice={this.handleClearSelectedChoice}
 				/>
-				<AddChoice handleAddChoice={this.handleAddChoice} />
 			</div>
 		);
 	}

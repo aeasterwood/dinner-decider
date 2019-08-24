@@ -4,10 +4,15 @@ import Choice from './Choice';
 const Choices = (props) => {
 	return (
 		<div>
-			<button onClick={props.handleDeleteAll}>Delete All</button>
-			{props.choices.length === 0 && <p>To get started, add some choices below.</p>}
-			{props.choices.map((choice) => (
-				<Choice key={choice} choiceText={choice} handleDeleteChoice={props.handleDeleteChoice} />
+			<div className="widget-header">
+				<h3 className="widget-header__title">Choices</h3>
+				<button className="button button--delete" onClick={props.handleDeleteAll}>
+					Delete All
+				</button>
+			</div>
+			{props.choices.length === 0 && <p className="widget__message">To get started, add some choices below.</p>}
+			{props.choices.map((choice, index) => (
+				<Choice key={choice} choiceText={choice} count={index + 1} handleDeleteChoice={props.handleDeleteChoice} />
 			))}
 		</div>
 	);
